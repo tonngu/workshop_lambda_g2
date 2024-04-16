@@ -62,7 +62,7 @@ public class DataStorageImpl implements DataStorage {
         //todo: implement the method
         for (Person person : personList){
             if (filter.test(person)){
-                return person.toString();
+                return personToString.apply(person);
             }
         }
         return null;
@@ -95,20 +95,19 @@ public class DataStorageImpl implements DataStorage {
         //todo: implement the method
         List<Person> sortedList = new ArrayList<>(personList);
         sortedList.sort(comparator);
-        return null;
+        return sortedList;
     }
 
     @Override
     public List<Person> findAndSort(Predicate<Person> filter, Comparator<Person> comparator) {
         //todo: implement the method
-        List<Person> toSort = new ArrayList<>();
+        List<Person> sortedList = new ArrayList<>();
         for (Person person : personList){
             if (filter.test(person)){
-                toSort.add(person);
+                sortedList.add(person);
             }
         }
-
-        toSort.sort(comparator);
-        return toSort;
+        sortedList.sort(comparator);
+        return sortedList;
     }
 }

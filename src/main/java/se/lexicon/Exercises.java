@@ -6,6 +6,7 @@ import se.lexicon.model.Person;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class Exercises {
@@ -18,8 +19,7 @@ public class Exercises {
     public static void exercise1(String message) {
         System.out.println(message);
         //Write your code here
-        Predicate<Person> filter = person -> person.getFirstName().equals("Erik");
-        List<Person> result = storage.findMany(filter);
+        List<Person> result = storage.findMany(person -> person.getFirstName().equals("Erik"));
         for (Person person : result) {
             System.out.println(person);
         }
@@ -32,8 +32,7 @@ public class Exercises {
     public static void exercise2(String message) {
         System.out.println(message);
         //Write your code here
-        Predicate<Person> filter = person -> person.getGender() == Gender.FEMALE;
-        List<Person> result = storage.findMany(filter);
+        List<Person> result = storage.findMany(person -> person.getGender() == Gender.FEMALE);
         for (Person person : result) {
             System.out.println(person);
         }
@@ -48,10 +47,9 @@ public class Exercises {
         //Write your code here
         Predicate<Person> filter = person -> person.getBirthDate().isAfter(LocalDate.of(1999, 12, 31));
         List<Person> result = storage.findMany(filter);
-        for (Person person : result){
+        for (Person person : result) {
             System.out.println(person);
         }
-
         System.out.println("----------------------");
     }
 
@@ -61,8 +59,7 @@ public class Exercises {
     public static void exercise4(String message) {
         System.out.println(message);
         //Write your code here
-Predicate<Person> filter = person -> person.getId() == 123;
-        System.out.println(storage.findOne(filter).toString());
+        System.out.println(storage.findOne(person -> person.getId() == 123).toString());
         System.out.println("----------------------");
 
     }
@@ -74,8 +71,9 @@ Predicate<Person> filter = person -> person.getId() == 123;
     public static void exercise5(String message) {
         System.out.println(message);
         //Write your code here
-Predicate<Person> filter = person -> person.getId() == 456;
-        System.out.println(storage.findOneAndMapToString(filter, ));
+        System.out.println(storage.findOneAndMapToString(
+                person -> person.getId() == 456,
+                Person::toString));
         System.out.println("----------------------");
     }
 
@@ -85,7 +83,10 @@ Predicate<Person> filter = person -> person.getId() == 456;
     public static void exercise6(String message) {
         System.out.println(message);
         //Write your code here
-
+        System.out.println(storage.findOneAndMapToString(
+                person -> person.getFirstName().startsWith("E") &&
+                person.getGender() == Gender.MALE,
+                Person::toString));
         System.out.println("----------------------");
     }
 
@@ -96,7 +97,9 @@ Predicate<Person> filter = person -> person.getId() == 456;
     public static void exercise7(String message) {
         System.out.println(message);
         //Write your code here
-
+        System.out.println(storage.findOneAndMapToString(
+                person -> person.getBirthDate().isAfter(LocalDate.now().minusYears(10)),
+                person -> person.getFirstName() + " " + person.getLastName()+ " " + (LocalDate.now().getYear() - person.getBirthDate().getYear()) + " years"));
         System.out.println("----------------------");
     }
 
