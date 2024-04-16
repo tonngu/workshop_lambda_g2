@@ -139,7 +139,7 @@ public class Exercises {
         System.out.println(message);
         //Write your code here
         storage.findAndDo(
-                person -> new StringBuilder(person.getFirstName()).reverse().toString().equals(person.getFirstName()),
+                person -> new StringBuilder(person.getFirstName()).reverse().toString().equalsIgnoreCase(person.getFirstName()),
                 person -> System.out.println(person.getFirstName() + " " + person.getLastName())
         );
         System.out.println("----------------------");
