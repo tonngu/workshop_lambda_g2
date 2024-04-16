@@ -1,6 +1,12 @@
 package se.lexicon;
 
 import se.lexicon.data.DataStorage;
+import se.lexicon.model.Gender;
+import se.lexicon.model.Person;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class Exercises {
 
@@ -12,7 +18,11 @@ public class Exercises {
     public static void exercise1(String message) {
         System.out.println(message);
         //Write your code here
-
+        Predicate<Person> filter = person -> person.getFirstName().equals("Erik");
+        List<Person> result = storage.findMany(filter);
+        for (Person person : result) {
+            System.out.println(person);
+        }
         System.out.println("----------------------");
     }
 
@@ -22,7 +32,11 @@ public class Exercises {
     public static void exercise2(String message) {
         System.out.println(message);
         //Write your code here
-
+        Predicate<Person> filter = person -> person.getGender() == Gender.FEMALE;
+        List<Person> result = storage.findMany(filter);
+        for (Person person : result) {
+            System.out.println(person);
+        }
         System.out.println("----------------------");
     }
 
@@ -32,6 +46,11 @@ public class Exercises {
     public static void exercise3(String message) {
         System.out.println(message);
         //Write your code here
+        Predicate<Person> filter = person -> person.getBirthDate().isAfter(LocalDate.of(1999, 12, 31));
+        List<Person> result = storage.findMany(filter);
+        for (Person person : result){
+            System.out.println(person);
+        }
 
         System.out.println("----------------------");
     }
@@ -42,7 +61,8 @@ public class Exercises {
     public static void exercise4(String message) {
         System.out.println(message);
         //Write your code here
-
+Predicate<Person> filter = person -> person.getId() == 123;
+        System.out.println(storage.findOne(filter).toString());
         System.out.println("----------------------");
 
     }
@@ -54,7 +74,8 @@ public class Exercises {
     public static void exercise5(String message) {
         System.out.println(message);
         //Write your code here
-
+Predicate<Person> filter = person -> person.getId() == 456;
+        System.out.println(storage.findOneAndMapToString(filter, ));
         System.out.println("----------------------");
     }
 
