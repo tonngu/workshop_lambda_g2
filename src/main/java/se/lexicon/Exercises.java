@@ -5,8 +5,9 @@ import se.lexicon.model.Gender;
 import se.lexicon.model.Person;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class Exercises {
@@ -85,7 +86,7 @@ public class Exercises {
         //Write your code here
         System.out.println(storage.findOneAndMapToString(
                 person -> person.getFirstName().startsWith("E") &&
-                person.getGender() == Gender.MALE,
+                        person.getGender() == Gender.MALE,
                 Person::toString));
         System.out.println("----------------------");
     }
@@ -99,7 +100,7 @@ public class Exercises {
         //Write your code here
         System.out.println(storage.findOneAndMapToString(
                 person -> person.getBirthDate().isAfter(LocalDate.now().minusYears(10)),
-                person -> person.getFirstName() + " " + person.getLastName()+ " " + (LocalDate.now().getYear() - person.getBirthDate().getYear()) + " years"));
+                person -> person.getFirstName() + " " + person.getLastName() + " " + (LocalDate.now().getYear() - person.getBirthDate().getYear()) + " years"));
         System.out.println("----------------------");
     }
 
@@ -109,7 +110,10 @@ public class Exercises {
     public static void exercise8(String message) {
         System.out.println(message);
         //Write your code here
-
+        storage.findAndDo(
+                person -> person.getFirstName().equals("Ulf"),
+                person -> System.out.println(person.toString())
+        );
         System.out.println("----------------------");
     }
 
@@ -119,7 +123,12 @@ public class Exercises {
     public static void exercise9(String message) {
         System.out.println(message);
         //Write your code here
-
+        storage.findAndDo(
+                person -> person.getLastName().contains(person.getFirstName()),
+                person -> System.out.println(person.toString())
+        );
+        //it keeps returning nothing, but I guess it's because the names are random everytime the program is run
+        // I need to retry until it generates person that fits the above criteria or make a custom entry to the data storage
         System.out.println("----------------------");
     }
 
@@ -129,7 +138,10 @@ public class Exercises {
     public static void exercise10(String message) {
         System.out.println(message);
         //Write your code here
-
+        storage.findAndDo(
+                person -> new StringBuilder(person.getFirstName()).reverse().toString().equals(person.getFirstName()),
+                person -> System.out.println(person.getFirstName() + " " + person.getLastName())
+        );
         System.out.println("----------------------");
     }
 
@@ -139,7 +151,15 @@ public class Exercises {
     public static void exercise11(String message) {
         System.out.println(message);
         //Write your code here
+        List<Person> sortedList = new ArrayList<>(
+                storage.findAndSort(
+                        person -> person.getFirstName().startsWith("A"),
+                        Comparator.comparing(person -> person.getBirthDate()))
+        );
 
+        for (Person person : sortedList) {
+            System.out.println(person.toString());
+        }
         System.out.println("----------------------");
     }
 
@@ -149,7 +169,21 @@ public class Exercises {
     public static void exercise12(String message) {
         System.out.println(message);
         //Write your code here
+        List<Person> sortedList = new ArrayList<>(
+                storage.findAndSort(
+                        person -> person.getBirthDate().isBefore(LocalDate.of(1950, 1, 1)),
+                        Comparator.comparing((Person person) -> person.getBirthDate()).reversed()
+                )
+                //Reminder: Comparator.comparing() parameter requires you to pass in a function itself
+                //for reasons not understood I cannot write this statement inside Comparator.comparing()
+                //person -> person.getBirthDate()
+                //instead I need to specify (Person person) -> person.getBirthDate() for it to work
+                //Person::getBirthDate works too
+        );
 
+        for (Person person : sortedList) {
+            System.out.println(person.toString());
+        }
         System.out.println("----------------------");
     }
 
@@ -159,7 +193,20 @@ public class Exercises {
     public static void exercise13(String message) {
         System.out.println(message);
         //Write your code here
+        List<Person> sortedList = new ArrayList<>(
+        storage.findAndSort(Comparator.comparing((Person person) -> person.getLastName())
+                .thenComparing((Person person) -> person.getFirstName())
+                .thenComparing((Person person) -> person.getBirthDate())
+                //Thi
+        )
+        //Same problem here, cannot write person -> person.method() instead you have to specify the class inside parentheses
+        //(Person person) -> method call
 
+        );
+
+        for (Person person : sortedList) {
+            System.out.println(person.toString());
+        }
         System.out.println("----------------------");
     }
 }

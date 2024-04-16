@@ -4,7 +4,6 @@ package se.lexicon.data;
 import se.lexicon.model.Person;
 import se.lexicon.util.PersonGenerator;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -60,8 +59,8 @@ public class DataStorageImpl implements DataStorage {
     @Override
     public String findOneAndMapToString(Predicate<Person> filter, Function<Person, String> personToString) {
         //todo: implement the method
-        for (Person person : personList){
-            if (filter.test(person)){
+        for (Person person : personList) {
+            if (filter.test(person)) {
                 return personToString.apply(person);
             }
         }
@@ -84,7 +83,7 @@ public class DataStorageImpl implements DataStorage {
     public void findAndDo(Predicate<Person> filter, Consumer<Person> consumer) {
         //todo: implement the method
         for (Person person : personList) {
-            if (filter.test(person)){
+            if (filter.test(person)) {
                 consumer.accept(person);
             }
         }
@@ -102,12 +101,13 @@ public class DataStorageImpl implements DataStorage {
     public List<Person> findAndSort(Predicate<Person> filter, Comparator<Person> comparator) {
         //todo: implement the method
         List<Person> sortedList = new ArrayList<>();
-        for (Person person : personList){
-            if (filter.test(person)){
+        for (Person person : personList) {
+            if (filter.test(person)) {
                 sortedList.add(person);
             }
         }
         sortedList.sort(comparator);
         return sortedList;
     }
+
 }
